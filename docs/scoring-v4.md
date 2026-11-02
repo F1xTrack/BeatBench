@@ -76,5 +76,4 @@ Do not tune thresholds to force the desired Astra/Luna gap on today's examples.
 
 ```powershell
 beatbench review-map MAP.zip
-python tools/compare_scoring_v4.py RUN1 RUN2 --baseline-comparison BASELINE.json
 ```

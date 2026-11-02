@@ -43,46 +43,9 @@ failure and unavailable text are explicit, including for historical Astra runs.
 Analysis performs no model calls, does not influence scoring, and is never fed
 back into the participant conversation. No judge-model expenses are introduced.
 
-Debug all four conditions through the subscription CLI:
-
-```powershell
-.venv\Scripts\python.exe tools/run_input_pilots.py --backend codex --codex-model gpt-6-luna --reasoning-effort high --reasoning-summary detailed --repeats 1 --model-timeout 900
-```
-
-For a later Astra series, change only `--codex-model gpt-6-astra`. Freeze prompt,
-input conditions and generation settings before claiming a controlled comparison.
-
-## Sequential model series and cache accounting
-
-One launcher invocation processes four conditions per selected model (BB/YPM,
-spectrogram/Python). Models, conditions and all underlying metadata/difficulty/tool
-requests execute sequentially. Repeating `--codex-model` queues another model.
-
-```powershell
-.venv\Scripts\python.exe tools/run_input_pilots.py --backend codex --codex-model gpt-6-luna --codex-model gpt-6.1-sol --reasoning-effort xhigh --reasoning-summary detailed --codex-cache-prefix --repeats 1 --model-timeout 900
-```
-
-`--codex-cache-prefix` enables transport `codex-prefix-v2`. It keeps one isolated
-temporary working directory throughout the launcher series and sends the unchanged
-benchmark system instructions as a stable developer prefix. The Python contract
-and changing per-track transcript follow that prefix. Individual calls remain
-fresh ephemeral sessions; no previous map, summary or evaluation is supplied to
-another condition. A workspace lock rejects overlapping requests, and the native
-Windows executable is preferred over a Node wrapper to avoid an orphan on timeout.
-
-Each call saves `.transport.json` with prefix hash, workspace and image hashes.
-Offline analysis and `series.json` include provider-reported input, cached input,
-uncached input and cached fraction. When the CLI exposes cache-write and reasoning
-token counters, fresh analysis preserves them; missing usage stays explicit.
-Cache reuse is best effort and requires a
-matching rendered prefix; a different model or the parent Codex conversation
-cannot be assumed to share it. See [OpenAI prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching).
-
-The parent mapping prompt stays P3, but v2 changes its placement in the transport.
-Comparisons with saved v1 runs also differ in transport; comparisons between xhigh
-and high runs differ in effort. Record both differences and avoid attributing
-an observed score change solely to model size or effort.
-
-`tools/compare_scoring_v4.py --series SERIES.json` accepts the entire series,
-preserves failed conditions, and adds fresh reasoning/cache analysis alongside
-map assessments. It never rewrites source maps or their earlier scores.
+For a controlled series, run each condition sequentially with the same prompt
+version, input mode, timeout and requested difficulty. Record the provider,
+model, reasoning setting and cache mode in the manifest. A cache hit is a
+transport optimization, not evidence of better mapping quality; changing the
+prefix or model can invalidate reuse. Preserve failed conditions and never
+rewrite earlier raw calls or score files.
