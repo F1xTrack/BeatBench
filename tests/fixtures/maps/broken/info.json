@@ -1,0 +1,7 @@
+{"version": "2.2.0", "songName": "Test", "songSubName": "", "songAuthorName": "Artist",
+ "shuffle": 0.5, "shufflePeriod": 0.5, "previewStartTime": 12,
+ "songFilename": "song.ogg", "coverImageFilename": "cover.jpg",
+ "environmentName": "TriangleEnvironment",
+ "difficultyBeatmapSets": [{"_beatmapCharacteristicName": "Standard",
+   "_difficultyBeatmaps": [{"_difficulty": "ExpertPlus", "_difficultyRank": 9,
+     "_beatmapFilename": "ExpertPlus.dat", "_noteJumpMovementSpeed": 18}]}]}

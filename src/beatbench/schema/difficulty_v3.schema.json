@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["version", "colorNotes", "basicBeatmapEvents"],
+  "properties": {
+    "version": {"type": "string"},
+    "colorNotes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["b", "x", "y", "c", "d"],
+        "properties": {
+          "b": {"type": "number"}, "x": {"type": "integer", "minimum": 0, "maximum": 3},
+          "y": {"type": "integer", "minimum": 0, "maximum": 2},
+          "c": {"type": "integer", "enum": [0, 1]},
+          "d": {"type": "integer", "minimum": 0, "maximum": 8},
+          "a": {"type": "integer", "minimum": 0, "maximum": 1},
+          "customData": {"type": "object"}
+        }
+      }
+    },
+    "bombNotes": {
+      "type": "array",
+      "items": {"type": "object", "required": ["b", "x", "y"]}
+    },
+    "obstacles": {
+      "type": "array",
+      "items": {"type": "object", "required": ["b", "x", "y", "d", "w", "h"]}
+    },
+    "basicBeatmapEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["b", "et", "i"],
+        "properties": {"b": {"type": "number"}, "et": {"type": "integer"}, "i": {"type": "integer"}}
+      }
+    },
+    "lightColorEventBoxGroups": {"type": "array"},
+    "rotationEventBoxGroups": {"type": "array"},
+    "wayPoints": {"type": "array"},
+    "sliders": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/arc"}
+    },
+    "burstSliders": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/burstSlider"}
+    },
+    "basicEventTypesWithKeywords": {"type": "object"},
+    "useNormalEventsAsCompatibleEvents": {"type": "boolean"},
+    "customData": {"type": "object"}
+  },
+  "definitions": {
+    "gridX": {"type": "integer", "minimum": 0, "maximum": 3},
+    "gridY": {"type": "integer", "minimum": 0, "maximum": 2},
+    "color": {"type": "integer", "enum": [0, 1]},
+    "direction": {"type": "integer", "minimum": 0, "maximum": 8},
+    "arc": {
+      "type": "object",
+      "required": ["b", "c", "x", "y", "d", "tb", "tx", "ty", "tc", "m"],
+      "properties": {
+        "b": {"type": "number"}, "c": {"$ref": "#/definitions/color"},
+        "x": {"$ref": "#/definitions/gridX"}, "y": {"$ref": "#/definitions/gridY"},
+        "d": {"$ref": "#/definitions/direction"},
+        "tb": {"type": "number"}, "tx": {"$ref": "#/definitions/gridX"},
+        "ty": {"$ref": "#/definitions/gridY"}, "tc": {"$ref": "#/definitions/color"},
+        "m": {"type": "integer", "minimum": 0, "maximum": 1},
+        "customData": {"type": "object"}
+      }
+    },
+    "burstSlider": {
+      "type": "object",
+      "required": ["b", "c", "x", "y", "d", "tb", "tx", "ty", "sc", "s"],
+      "properties": {
+        "b": {"type": "number"}, "c": {"$ref": "#/definitions/color"},
+        "x": {"$ref": "#/definitions/gridX"}, "y": {"$ref": "#/definitions/gridY"},
+        "d": {"$ref": "#/definitions/direction"},
+        "tb": {"type": "number"}, "tx": {"$ref": "#/definitions/gridX"},
+        "ty": {"$ref": "#/definitions/gridY"},
+        "sc": {"type": "integer", "minimum": 1},
+        "s": {"type": "number", "exclusiveMinimum": 0},
+        "customData": {"type": "object"}
+      }
+    }
+  }
+}
